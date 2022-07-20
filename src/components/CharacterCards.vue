@@ -1,8 +1,24 @@
 <script setup>
-import useFetchAllCharacters from "../composables/fetchCharacters";
-const { setOrderKey, fetchAllCharacters, charactersOrdered } =
-  useFetchAllCharacters("https://rickandmortyapi.com/api/character");
+import { ref, computed } from "vue";
+import orderBy from "lodash";
+import useFetchResource from "../composables/fetchCharacters";
+
+const {
+  data: characters,
+  loadingState,
+  fetchResource: fetchAllCharacters,
+} = useFetchResource("https://rickandmortyapi.com/api/character");
 fetchAllCharacters();
+
+const orderKey = ref("id");
+
+const charactersOrdered = computed(() => {
+  return orderBy(characters.value, orderKey.value);
+});
+
+const setOrderKey = (key) => {
+  orderKey.value = key;
+}
 </script>
 
 <template>
