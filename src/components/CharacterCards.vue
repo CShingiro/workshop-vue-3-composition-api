@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import orderBy from "lodash";
+import { useGlobalEvent } from "@/composables/globalEvent";
 import useFetchResource from "../composables/fetchCharacters";
 
 const {
@@ -19,6 +20,8 @@ const charactersOrdered = computed(() => {
 const setOrderKey = (key) => {
   orderKey.value = key;
 }
+
+useGlobalEvent("keypress", () => characters.value.pop());
 </script>
 
 <template>
